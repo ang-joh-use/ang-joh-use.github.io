@@ -1,0 +1,382 @@
+@import "normalize";
+@import "fonts";
+@import "theme";
+@import "button";
+@import "media-queries";
+@import "responsive";
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: $spaceUnit;
+
+    ::-webkit-scrollbar {
+        background: rgba($primary, 0.1);
+        border-radius: 4px;
+        height: 10px;
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background:rgba($primary, 0.3);
+    }
+
+    * {
+        outline: 0;
+        text-decoration: none;
+    }
+
+    ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    font-size: 16px;
+
+    @include mobile {
+        font-size: calc(0.8rem + ((1vw - .2em) / 1.37142857));
+        cursor: pointer;
+    }
+
+    @include tablet {
+        font-size: $baseSize;
+        cursor: pointer;
+    }
+
+    @include desktop {
+        font-size: $baseSize;
+        max-width: 1024px;
+    }
+
+}
+
+body {
+    display: grid;
+    min-height: 100%;
+    grid-template-columns: minmax(10%, max-content) auto  minmax(10%, max-content);
+    grid-template-rows: max-content auto minmax(10%, max-content);
+    grid-gap: 1em;
+    grid-template-areas: 
+    "header header header"
+    "container container container"
+    "footer footer footer";
+
+}
+
+// Header
+.header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    grid-template-areas: 
+    "logo . navbar";
+    padding-bottom: $spaceUnit;
+    margin: 2 * $spaceUnit 0em;
+    @include predesktop {
+        margin: 0.5* $spaceUnit 0em;
+    }
+}
+
+.logo {
+    grid-area: logo;
+    text-transform: uppercase;
+    font-family: $headerFont;
+    font-size: $baseSize;
+    letter-spacing: 1.1px;
+    cursor: pointer;
+    padding: 0.25 * $spaceUnit 0.5 * $spaceUnit;
+    border-left: 8px solid rgba($primary, 0.75);
+    @include predesktop {
+        font-size: $regularSize;
+        padding: 0 * $spaceUnit 0 * $spaceUnit;
+        border-left: 0px solid rgba($primary, 0.75);
+    }
+    
+}
+
+// Navigation
+@include desktop {
+    .navbar-wrapper {
+        grid-area: navbar;
+    }
+    .navbarmenu {
+        display: none;
+    }
+
+    .navbar {
+        font-family: $headerFont;
+        font-size: $smallSize;
+        text-transform: uppercase;
+        letter-spacing: 1.1px;
+        place-self: center;
+        ol {
+            display: inline-flex;
+            li {}
+        }
+    }
+    
+    .navitem {
+        color: $black;
+        padding:  0.4 * $spaceUnit 1 * $spaceUnit;
+        &:hover {
+            color: white;
+            background-color: rgba($primary, 0.95);
+            border-radius: 2px;
+            transition: opacity 300ms cubic-bezier(.694,0,.335,1),
+                background-color 300ms cubic-bezier(.694,0,.335,1),
+                color 300ms cubic-bezier(.694,0,.335,1);
+        }
+    }
+}
+
+@include predesktop {
+    .navbar-wrapper {
+        grid-area: navbar;
+        display: flex;
+    }
+    .navbarmenu {
+        display: initial;
+        padding: 0.5 * $spaceUnit $spaceUnit;
+        cursor: pointer;
+    }
+    .navbar {
+        font-family: $headerFont;
+        font-size: $smallSize;
+        text-transform: uppercase;
+        letter-spacing: 1.1px;
+        display: none;
+        ol {
+            display: inline-table;
+            // border: 1px solid $primary;
+            // padding: 0.5 * $spaceUnit 0.1 * $spaceUnit;
+            // border-radius: 5px;
+            li {
+                // float: right;
+                color: $white;
+                padding: 0.5 * $spaceUnit;
+            }
+        }
+    }
+
+    .navitem {
+        color: $black;
+        padding:  0.5 * $spaceUnit $spaceUnit;
+        &:hover, &:focus {
+            color: white;
+            background-color: rgba($primary, 0.95);
+            border-radius: 2px;
+            transition: opacity 300ms cubic-bezier(.694,0,.335,1),
+                background-color 300ms cubic-bezier(.694,0,.335,1),
+                color 300ms cubic-bezier(.694,0,.335,1);
+        }
+    }
+}
+
+// Mobile Navigation
+
+// Footer
+.footer {
+    text-align: center;
+    grid-area: footer;
+    font-family: $headerFont;
+    font-size: $regularSize;
+    color: $primary;
+
+    .emoji {
+        font-size: 2 * $regularSize;
+    }
+}
+
+// Content
+.container {
+    grid-area: container;
+}
+
+.post {
+    margin-bottom: 1.5 * $spaceUnit;
+}
+
+.post-year {
+    margin-bottom: 1.5 * $spaceUnit;
+    font-family: $headerFont;
+    letter-spacing: 1.2px;
+    font-size: $baseSize;
+    color: $black;
+    span {
+        background-color: rgba($primary, 0.95);
+        color: $white;
+        padding: 0.2em 0.5em;
+    }
+}
+
+.post-title {
+    font-family: $headerFont;
+    font-size: $bigSize;
+    font-weight: 400;
+    color: $primary;
+}
+
+.post-title-single {
+    font-family: $headerFont;
+    font-size: $bigSize;
+    font-weight: 400;
+    color: $primary;
+}
+
+.post-metadata {
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-template-areas: 
+        "post-date post-tags";
+    margin-top: 0.3 * $spaceUnit;
+    font-family: $metaFont;
+    font-size: $smallSize;
+    color: $black;
+    @include mobile {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: max-content auto;
+        grid-row-gap: 3px;
+        grid-template-areas: 
+        "post-date"
+        "post-tags";
+    }
+}
+
+.post-date {
+    grid-area: post-date;
+    margin-right: 0.5 * $spaceUnit;
+}
+
+.post-tags {
+    grid-area: post-tags;
+    .post-tag {
+        font-size: 0.9 * $smallSize;
+        padding: 0.2 * $spaceUnit 0.4 * $spaceUnit;
+        margin: 0 0.3 * $spaceUnit;
+        border-radius: 2px;
+        color: $black;
+        background-color: rgba($primary, 0.2);
+
+        @include mobile {
+            font-size: $smallSize;
+            padding: 0.1 * $spaceUnit 0.2 * $spaceUnit;
+            margin: 0 0.1 * $spaceUnit;
+            border-radius: 2px;
+            color: $black;
+            background-color: rgba($primary, 0.2);
+        }
+    }
+}
+
+.post-content {
+    margin-top: 2 * $spaceUnit;
+    font-family: $baseFonts;
+    font-size: $baseSize;
+    line-height: 1.35 * $baseSize;
+    color: $primary;
+
+    @include mobile {
+        max-width: 90vw;
+    }
+   
+
+    img {
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        cursor: pointer;
+        @include predesktop {
+            overflow-x:auto;
+            max-width: 90vw;
+        }
+    }
+
+    pre {
+        border: 1px solid rgba($primary, 0.3);
+        border-radius: 3px;
+        padding: 0.5 * $spaceUnit;
+        background-color: rgba($primary, 0.0625);
+        color: $primary;
+        overflow: auto;
+        max-width: 100%;
+        overflow-wrap: normal;
+
+        code {
+            font-family: $monospaceFont;
+            font-size: $smallSize;
+            background-color: unset;
+            color: $primary;
+            padding: 0px;
+            overflow: auto;
+        }
+    }
+
+    code {
+        color: $primary;
+        padding: 3px 5px;
+        background-color: rgba($green, 0.15);
+        border-radius: 3px;
+        font-size: $smallSize;
+        font-family: $monospaceFont;
+        place-content: center;
+    }
+
+    a {
+        color: $primary;
+        text-decoration: underline;
+        text-underline-position: auto;
+        padding: 0px 2px;
+        &:hover, &:focus {
+            color: $white;
+            text-decoration: none;
+            background-color: rgba($primary, 0.95);
+            border-radius: 2px;
+            transition: opacity 300ms cubic-bezier(.694,0,.335,1),
+                background-color 300ms cubic-bezier(.694,0,.335,1),
+                color 300ms cubic-bezier(.694,0,.335,1);
+        }
+    }
+
+    p {
+        font-family: $baseFonts;
+        margin: 0.5 * $spaceUnit 0;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: $headerFont;
+        font-weight: 400;
+        padding: 0 0.5 * $spaceUnit;
+        border-left: 5px solid rgba($primary, 0.95);
+        color: $primary;
+        margin: $spaceUnit 0;
+    }
+    h1 {
+        font-size: 1.2 * $regularSize;
+    }
+
+    h2 {
+        font-size: 1.15 * $regularSize;
+    }
+
+     h3 {
+        font-size: 1.1 * $regularSize;
+     }
+
+     h4 {
+        font-size: 1.05 * $regularSize;
+     }
+
+     strong {
+        font-family: $headerFont;
+        padding: 3px 0.5*$spaceUnit;
+        margin: $spaceUnit 0;
+        background-color: rgba($primary, 0.85);
+        border-radius: 3px;
+        color: $white;
+     }
+}
